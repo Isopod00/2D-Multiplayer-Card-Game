@@ -11,6 +11,7 @@ public class DragAndDrop : MonoBehaviour {
     private Vector2 startPosition;
     private GameObject dropZone;
     private bool isOverDropZone;
+    private bool immovable = false;
 
     private bool isDragging = false;
     private float offsetX = 0;
@@ -48,6 +49,7 @@ public class DragAndDrop : MonoBehaviour {
 
         if(isOverDropZone) {
             transform.SetParent(dropZone.transform, false);
+            immovable = true;
         } else {
             transform.position = startPosition;
             transform.SetParent(startParent.transform, false);
@@ -56,7 +58,7 @@ public class DragAndDrop : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if (isDragging) {
+        if (isDragging && !immovable) {
             transform.position = new Vector2(Input.mousePosition.x + offsetX, Input.mousePosition.y + offsetY);
             transform.SetParent(Canvas.transform, true);
         }
