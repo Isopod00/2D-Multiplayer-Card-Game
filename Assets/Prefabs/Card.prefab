@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1750872666}
   - component: {fileID: 1750872668}
   - component: {fileID: 1750872667}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: CardBackground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,7 +92,7 @@ GameObject:
   - component: {fileID: 3116693649160127510}
   - component: {fileID: 8563000199239564676}
   - component: {fileID: 5866282009104974119}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: PictureField
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -168,7 +168,7 @@ GameObject:
   - component: {fileID: 513150897600581804}
   - component: {fileID: 4155651659728600088}
   - component: {fileID: 4873502471243801285}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: HealthText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -251,7 +251,9 @@ GameObject:
   - component: {fileID: -8019741652251503852}
   - component: {fileID: -6311857807956141316}
   - component: {fileID: 752375158}
-  m_Layer: 5
+  - component: {fileID: 5989761499121031688}
+  - component: {fileID: 5759769718619026883}
+  m_Layer: 7
   m_Name: Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -330,6 +332,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Canvas: {fileID: 0}
+  DropZone: {fileID: 0}
 --- !u!114 &-6311857807956141316
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -387,11 +390,58 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e486b92eb37bfa43a252df48cc11e9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thisID: 0
+  cardID: 0
   nameText: {fileID: 712883438302904466}
   costText: {fileID: 6869482426022927489}
   healthText: {fileID: 4873502471243801285}
   descriptionText: {fileID: 8958981296788902323}
+--- !u!61 &5989761499121031688
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1254294070387614268}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!50 &5759769718619026883
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1254294070387614268}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 7
 --- !u!1 &2697162851872454627
 GameObject:
   m_ObjectHideFlags: 0
@@ -403,7 +453,7 @@ GameObject:
   - component: {fileID: 2477141299042161319}
   - component: {fileID: 5123877161260453774}
   - component: {fileID: 6051707953897669152}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: PictureEdge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -480,7 +530,7 @@ GameObject:
   - component: {fileID: 1224606257712153542}
   - component: {fileID: 466102322383640568}
   - component: {fileID: 6869482426022927489}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: CostText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -560,7 +610,7 @@ GameObject:
   - component: {fileID: 6799792757430097660}
   - component: {fileID: 914124865911155592}
   - component: {fileID: 6605029939315960003}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: NameField
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -637,7 +687,7 @@ GameObject:
   - component: {fileID: 3307305444648904706}
   - component: {fileID: 4925338423865263183}
   - component: {fileID: 8301041736874663014}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: HealthField
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -714,7 +764,7 @@ GameObject:
   - component: {fileID: 4935758638822557058}
   - component: {fileID: 7664304315819161391}
   - component: {fileID: 4330154766308894532}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: CostEdge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -791,7 +841,7 @@ GameObject:
   - component: {fileID: 1849405681407376384}
   - component: {fileID: 8248698878605486928}
   - component: {fileID: 8958981296788902323}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: DescriptionText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -875,7 +925,7 @@ GameObject:
   - component: {fileID: 8771674176082674436}
   - component: {fileID: 1039576143884239498}
   - component: {fileID: 1572365001094393918}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: CostField
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -952,7 +1002,7 @@ GameObject:
   - component: {fileID: 7883781425213427415}
   - component: {fileID: 5100019322150613577}
   - component: {fileID: 5161746408672138967}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: HealthEdge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1029,7 +1079,7 @@ GameObject:
   - component: {fileID: 8194123181744379931}
   - component: {fileID: 1262590658798180296}
   - component: {fileID: 712883438302904466}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: NameText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
