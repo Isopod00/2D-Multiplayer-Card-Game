@@ -172,9 +172,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deck: []
-  deckSize: 40
+  deckSize: 20
   PlayerArea: {fileID: 0}
-  cardObject: {fileID: 0}
+  cardObject: {fileID: 1254294070387614268, guid: a19fb1d20db5f184e8b24933ae29e7ec, type: 3}
+  cardsLeft: {fileID: 2394244747118642891}
 --- !u!1 &7757276193635516936
 GameObject:
   m_ObjectHideFlags: 0
