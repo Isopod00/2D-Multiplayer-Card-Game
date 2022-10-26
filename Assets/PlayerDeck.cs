@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
 // This class creates the basic structure of a deck
@@ -11,12 +12,16 @@ public class PlayerDeck : MonoBehaviour {
     public GameObject PlayerArea;
     public GameObject cardObject;
 
+    public Text cardsLeft;
+
     // Start is called before the first frame update
     void Start() {
         // Fill the deck with random cards from the database
         for(int i = 0; i < deckSize; i++) {
             deck.Add(CardDataBase.cardList[Random.Range(0, CardDataBase.cardList.Count)]);
         }
+
+        cardsLeft.text = deckSize.ToString(); // Display the player deck size
     }
 
     // Method for shuffling the deck
@@ -46,10 +51,11 @@ public class PlayerDeck : MonoBehaviour {
             card.transform.SetParent(PlayerArea.transform, false);
 
             ThisCard script = card.GetComponent<ThisCard>(); // Access this script from the new card object
-            script.cardID = deck[i].getID(); // Set the proper card ID for the new card object
+            script.cardID = deck[0].getID(); // Set the proper card ID for the new card object
 
-            deck.RemoveAt(i); // Remove the drawn card from our deck
+            deck.RemoveAt(0); // Remove the drawn card from our deck
             deckSize--; // Decrease deck size by 1
+            cardsLeft.text = deckSize.ToString(); // Update the display text
         }
     }
 }
