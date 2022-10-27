@@ -4,16 +4,19 @@ using UnityEngine;
 [System.Serializable]
 
 // This class defines the basic template for a Card object
-public class Card {
-    
+public class Card
+{
+
+    // Private Instance Data
     private int cardID;
     private string cardName;
     private int cardCost;
     private int cardHealth;
     private string cardDescription;
 
-    // Class Constructor
-    public Card(int ID, string Name, int Cost, int Health, string Description) {
+    // Constructor for a Card object
+    public Card(int ID, string Name, int Cost, int Health, string Description)
+    {
         cardID = ID;
         cardName = Name;
         cardCost = Cost;
@@ -21,20 +24,25 @@ public class Card {
         cardDescription = Description;
     }
 
-    // Getter Methods
-    public int getID() {
+    // Public Getter Methods
+    public int getID()
+    {
         return cardID;
     }
-    public string getName() {
+    public string getName()
+    {
         return cardName;
     }
-    public int getCost() {
+    public int getCost()
+    {
         return cardCost;
     }
-    public int getHealth() {
+    public int getHealth()
+    {
         return cardHealth;
     }
-    public string getDescription() {
+    public string getDescription()
+    {
         return cardDescription;
     }
 }

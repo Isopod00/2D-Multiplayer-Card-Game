@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // This class defines the database of cards in the game
-public class CardDataBase : MonoBehaviour {
+public class CardDataBase : MonoBehaviour
+{
 
+    // Create a new list of Card objects
     public static List<Card> cardList = new List<Card>();
 
-    void Awake () {
+    void Awake()
+    {
         // List all cards in the game along with their attributes
         cardList.Add(new Card(0, "Anthony", 1, 10, "None"));
         cardList.Add(new Card(1, "Evan", 1, 20, "None"));

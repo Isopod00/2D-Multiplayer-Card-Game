@@ -4,10 +4,11 @@ using UnityEngine.UI;
 using UnityEngine;
 
 // This class creates the basic structure of a deck
-public class PlayerDeck : MonoBehaviour {
+public class PlayerDeck : MonoBehaviour
+{
 
-    public List<Card> deck = new List<Card>();
-    public int deckSize = 40; // Default deck size is defined here
+    public List<Card> deck = new List<Card>(); // Create a new list of Card objects
+    public int deckSize = 20; // Default deck size is defined here
 
     public GameObject PlayerArea;
     public GameObject cardObject;
@@ -15,9 +16,11 @@ public class PlayerDeck : MonoBehaviour {
     public Text cardsLeft;
 
     // Start is called before the first frame update
-    void Start() {
+    void Start()
+    {
         // Fill the deck with random cards from the database
-        for(int i = 0; i < deckSize; i++) {
+        for (int i = 0; i < deckSize; i++)
+        {
             deck.Add(CardDataBase.cardList[Random.Range(0, CardDataBase.cardList.Count)]);
         }
 
@@ -25,10 +28,12 @@ public class PlayerDeck : MonoBehaviour {
     }
 
     // Method for shuffling the deck
-    public void shuffle() {
+    public void shuffle()
+    {
         Card temp;
 
-        for(int i = 0; i < deckSize; i++) {
+        for (int i = 0; i < deckSize; i++)
+        {
             int swapWith = Random.Range(0, deckSize);
 
             // Swap the cards to shuffle
@@ -39,13 +44,16 @@ public class PlayerDeck : MonoBehaviour {
     }
 
     // Method for drawing cards
-    public void drawCards(int amountToDraw) {
+    public void drawCards(int amountToDraw)
+    {
         // Make sure we don't draw more than what is remaining in the deck
-        if(amountToDraw > deckSize) {
+        if (amountToDraw > deckSize)
+        {
             amountToDraw = deckSize;
         }
 
-        for(int i = 0; i < amountToDraw; i++) {
+        for (int i = 0; i < amountToDraw; i++)
+        {
             // Spawn a new card object
             GameObject card = Instantiate(cardObject, new Vector2(0, 0), Quaternion.identity);
             card.transform.SetParent(PlayerArea.transform, false);
