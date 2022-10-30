@@ -31,7 +31,10 @@ public class ThisCard : NetworkBehaviour
         descriptionText = textFields[1];
         costText = textFields[2];
         healthText = textFields[3];
+    }
 
+    void Update()
+    {
         // Update the card Text fields
         nameText.text = thisCard.getName();
         costText.text = thisCard.getCost().ToString();

@@ -109,10 +109,15 @@ public class PlayerManager : NetworkBehaviour
             } else
             {
                 card.transform.SetParent(enemyArea.transform, false);
+                card.GetComponent<CardFlipper>().Flip();
             }
         } else if (type == "played")
         {
             card.transform.SetParent(dropZone.transform, false);
+            if (!hasAuthority)
+            {
+                card.GetComponent<CardFlipper>().Flip();
+            }
         }
     }
 }
