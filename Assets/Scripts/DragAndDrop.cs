@@ -1,22 +1,22 @@
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DragAndDrop : MonoBehaviour
+public class DragAndDrop : NetworkBehaviour
 {
-
     public GameObject Canvas;
-    public GameObject DropZone;
+    public PlayerManager playerManager;
 
     // Initalize variables for DropZone functionality
     private GameObject startParent;
     private Vector2 startPosition;
     private GameObject dropZone;
     private bool isOverDropZone;
-    private bool immovable = false;
 
     // Initialize variables for dragging functionality
     private bool isDragging = false;
+    private bool isDraggable = false;
     private float offsetX = 0;
     private float offsetY = 0;
 
@@ -25,7 +25,11 @@ public class DragAndDrop : MonoBehaviour
     {
         // Find the instances of these GameObjects in the scene
         Canvas = GameObject.Find("Canvas");
-        DropZone = GameObject.Find("DropZone");
+
+        if (hasAuthority)
+        {
+            isDraggable = true;
+        }
     }
 
     // This method is called when a collision begins
@@ -44,35 +48,45 @@ public class DragAndDrop : MonoBehaviour
     // This method is called when the dragging begins
     public void startDrag()
     {
-        isDragging = true;
-        startParent = transform.parent.gameObject;
-        startPosition = transform.position;
+        if (isDraggable)
+        {
+            isDragging = true;
+            startParent = transform.parent.gameObject;
+            startPosition = transform.position;
 
-        // Calculate the offset from the cursor to the center of the card being dragged
-        offsetX = transform.position.x - Input.mousePosition.x;
-        offsetY = transform.position.y - Input.mousePosition.y;
+            // Calculate the offset from the cursor to the center of the card being dragged
+            offsetX = transform.position.x - Input.mousePosition.x;
+            offsetY = transform.position.y - Input.mousePosition.y;
+        }
     }
     // This method is called when the dragging ends
     public void endDrag()
     {
         isDragging = false;
 
-        if (isOverDropZone)
+        if (isDraggable)
         {
-            transform.SetParent(dropZone.transform, false);
-            immovable = true;
-        }
-        else
-        {
-            transform.position = startPosition;
-            transform.SetParent(startParent.transform, false);
+            if (isOverDropZone)
+            {
+                transform.SetParent(dropZone.transform, false);
+                isDraggable = false;
+
+                NetworkIdentity networkIdentity = NetworkClient.connection.identity;
+                playerManager = networkIdentity.GetComponent<PlayerManager>();
+                playerManager.CmdPlayCard(gameObject);
+            }
+            else
+            {
+                transform.position = startPosition;
+                transform.SetParent(startParent.transform, false);
+            }
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (isDragging && !immovable)
+        if (isDragging && isDraggable)
         {
             // Update the position of the card (move it)
             transform.position = new Vector2(Input.mousePosition.x + offsetX, Input.mousePosition.y + offsetY);

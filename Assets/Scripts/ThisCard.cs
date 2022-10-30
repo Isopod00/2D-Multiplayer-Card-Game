@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using Mirror;
 
 // This class is meant to represent a single card
-public class ThisCard : MonoBehaviour
+public class ThisCard : NetworkBehaviour
 {
-
+    [SyncVar]
     public int cardID;
 
     private Card thisCard;
-    private int thisID;
 
     // These are the Text fields for card GameObjects
     public Text nameText;
@@ -23,18 +23,14 @@ public class ThisCard : MonoBehaviour
     void Start()
     {
         thisCard = CardDataBase.cardList[cardID];
-        thisID = cardID;
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        // Check if the card ID has been changed, and update the card if it has
-        if (thisID != cardID)
-        {
-            thisID = cardID;
-            thisCard = CardDataBase.cardList[cardID];
-        }
+        Text[] textFields = new Text[4];
+        textFields = gameObject.GetComponentsInChildren<Text>();
+
+        nameText = textFields[0];
+        descriptionText = textFields[1];
+        costText = textFields[2];
+        healthText = textFields[3];
 
         // Update the card Text fields
         nameText.text = thisCard.getName();

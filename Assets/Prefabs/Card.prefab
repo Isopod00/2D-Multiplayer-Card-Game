@@ -253,6 +253,8 @@ GameObject:
   - component: {fileID: 752375158}
   - component: {fileID: 5989761499121031688}
   - component: {fileID: 5759769718619026883}
+  - component: {fileID: -3835112381064424480}
+  - component: {fileID: 4828961520244883073}
   m_Layer: 7
   m_Name: Card
   m_TagString: Untagged
@@ -331,8 +333,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8b0838d9144ffd4dba14ca6e243913d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   Canvas: {fileID: 0}
-  DropZone: {fileID: 0}
+  playerManager: {fileID: 0}
 --- !u!114 &-6311857807956141316
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -390,6 +394,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e486b92eb37bfa43a252df48cc11e9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   cardID: 0
   nameText: {fileID: 712883438302904466}
   costText: {fileID: 6869482426022927489}
@@ -442,6 +448,60 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 7
+--- !u!114 &-3835112381064424480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1254294070387614268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  serverOnly: 0
+  visible: 0
+  m_AssetId: a19fb1d20db5f184e8b24933ae29e7ec
+  hasSpawned: 0
+--- !u!114 &4828961520244883073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1254294070387614268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f74aedd71d9a4f55b3ce499326d45fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 1
+  syncInterval: 0.1
+  clientAuthority: 1
+  sendRate: 30
+  bufferTimeMultiplier: 2
+  bufferSizeLimit: 64
+  catchupNegativeThreshold: -1
+  catchupPositiveThreshold: 1
+  catchupSpeed: 0.009999999776482582
+  slowdownSpeed: 0.009999999776482582
+  driftEmaDuration: 1
+  dynamicAdjustment: 1
+  dynamicAdjustmentTolerance: 1
+  deliveryTimeEmaDuration: 2
+  onlySyncOnChange: 1
+  bufferResetMultiplier: 5
+  positionSensitivity: 0.01
+  rotationSensitivity: 0.01
+  scaleSensitivity: 0.01
+  syncPosition: 1
+  syncRotation: 1
+  syncScale: 0
+  showGizmos: 0
+  showOverlay: 0
+  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
 --- !u!1 &2697162851872454627
 GameObject:
   m_ObjectHideFlags: 0

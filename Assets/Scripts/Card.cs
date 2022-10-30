@@ -6,7 +6,6 @@ using UnityEngine;
 // This class defines the basic template for a Card object
 public class Card
 {
-
     // Private Instance Data
     private int cardID;
     private string cardName;
