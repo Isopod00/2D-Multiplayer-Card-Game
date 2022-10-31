@@ -16,6 +16,7 @@ public class PlayerManager : NetworkBehaviour
     public int deckSize = 20; // Default deck size is defined here
 
     private Text cardsLeft; // For displaying how many cards are in the player's deck
+    private int TurnsPlayed = 0;
 
     public override void OnStartClient()
     {
@@ -118,6 +119,8 @@ public class PlayerManager : NetworkBehaviour
             if (hasAuthority)
             {
                 card.transform.SetParent(playerDropZone.transform, false);
+                TurnsPlayed++;
+                Debug.Log("Turns Played: " + TurnsPlayed);
             } else
             {
                 card.transform.SetParent(enemyDropZone.transform, false);
