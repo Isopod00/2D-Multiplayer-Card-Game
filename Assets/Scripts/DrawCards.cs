@@ -6,12 +6,19 @@ using Mirror;
 public class DrawCards : NetworkBehaviour
 {
     public PlayerManager playerManager;
-    private int amountToDraw = 2; // Specify the number of cards to draw
+    public GameObject playerArea;
+
+    private int maxHandSize = 10; // Specify the maximum hand size
 
     public void OnClick()
     {
-        NetworkIdentity networkIdentity = NetworkClient.connection.identity;
-        playerManager = networkIdentity.GetComponent<PlayerManager>();
-        playerManager.CmdDrawCards(amountToDraw); // Ask the server to carry out this command
+        playerArea = GameObject.Find("PlayerArea");
+
+        if (playerArea.transform.childCount < maxHandSize)
+        {
+            NetworkIdentity networkIdentity = NetworkClient.connection.identity;
+            playerManager = networkIdentity.GetComponent<PlayerManager>();
+            playerManager.CmdDrawCards(1); // Ask the server to carry out this command
+        } 
     }
 }

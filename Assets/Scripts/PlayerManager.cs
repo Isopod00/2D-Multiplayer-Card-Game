@@ -9,7 +9,8 @@ public class PlayerManager : NetworkBehaviour
     public GameObject cardObject;
     public GameObject playerArea;
     public GameObject enemyArea;
-    public GameObject dropZone;
+    public GameObject playerDropZone;
+    public GameObject enemyDropZone;
 
     public List<Card> deck = new List<Card>(); // Create a new list of Card objects
     public int deckSize = 20; // Default deck size is defined here
@@ -29,7 +30,8 @@ public class PlayerManager : NetworkBehaviour
         // Find our GameObjects within the scene
         playerArea = GameObject.Find("PlayerArea");
         enemyArea = GameObject.Find("EnemyArea");
-        dropZone = GameObject.Find("DropZone");
+        playerDropZone = GameObject.Find("PlayerDropZone");
+        enemyDropZone = GameObject.Find("EnemyDropZone");
 
         cardsLeft = GameObject.Find("CardsLeft").GetComponent<Text>();
         cardsLeft.text = deckSize.ToString(); // Display the initial number of cards in the deck
@@ -113,9 +115,12 @@ public class PlayerManager : NetworkBehaviour
             }
         } else if (type == "played")
         {
-            card.transform.SetParent(dropZone.transform, false);
-            if (!hasAuthority)
+            if (hasAuthority)
             {
+                card.transform.SetParent(playerDropZone.transform, false);
+            } else
+            {
+                card.transform.SetParent(enemyDropZone.transform, false);
                 card.GetComponent<CardFlipper>().Flip();
             }
         }

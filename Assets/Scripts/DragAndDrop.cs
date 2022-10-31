@@ -20,11 +20,14 @@ public class DragAndDrop : NetworkBehaviour
     private float offsetX = 0;
     private float offsetY = 0;
 
+    private int maxBoardSize = 8; // Specify the max number of cards each player can have on the board
+
     // Start is called before the first frame update
     void Start()
     {
         // Find the instances of these GameObjects in the scene
         Canvas = GameObject.Find("Canvas");
+        dropZone = GameObject.Find("PlayerDropZone");
 
         if (hasAuthority)
         {
@@ -35,14 +38,15 @@ public class DragAndDrop : NetworkBehaviour
     // This method is called when a collision begins
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        isOverDropZone = true;
-        dropZone = collision.gameObject;
+        if (collision.gameObject == dropZone)
+        {
+            isOverDropZone = true;
+        }
     }
     // This method is called when a collision ends
     private void OnCollisionExit2D(Collision2D collision)
     {
         isOverDropZone = false;
-        dropZone = null;
     }
 
     // This method is called when the dragging begins
@@ -66,7 +70,7 @@ public class DragAndDrop : NetworkBehaviour
 
         if (isDraggable)
         {
-            if (isOverDropZone)
+            if (isOverDropZone && dropZone.transform.childCount < maxBoardSize)
             {
                 transform.SetParent(dropZone.transform, false);
                 isDraggable = false;

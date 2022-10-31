@@ -24,13 +24,16 @@ public class ThisCard : NetworkBehaviour
     {
         thisCard = CardDataBase.cardList[cardID];
 
-        Text[] textFields = new Text[4];
-        textFields = gameObject.GetComponentsInChildren<Text>();
+        if (hasAuthority)
+        {
+            Text[] textFields = new Text[4];
+            textFields = gameObject.GetComponentsInChildren<Text>();
 
-        nameText = textFields[0];
-        descriptionText = textFields[1];
-        costText = textFields[2];
-        healthText = textFields[3];
+            nameText = textFields[0];
+            descriptionText = textFields[1];
+            costText = textFields[2];
+            healthText = textFields[3];
+        }
     }
 
     void Update()
