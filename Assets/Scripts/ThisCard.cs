@@ -14,10 +14,12 @@ public class ThisCard : NetworkBehaviour
     private Card thisCard;
 
     // These are the Text fields for card GameObjects
-    public Text nameText;
-    public Text costText;
-    public Text healthText;
-    public Text descriptionText;
+    private Text nameText;
+    private Text costText;
+    private Text descriptionText;
+
+    private Text textSlot1;
+    private Text textSlot2;
 
     // Start is called before the first frame update
     void Start()
@@ -26,22 +28,40 @@ public class ThisCard : NetworkBehaviour
 
         if (hasAuthority)
         {
-            Text[] textFields = new Text[4];
+            Text[] textFields = new Text[5];
             textFields = gameObject.GetComponentsInChildren<Text>();
 
             nameText = textFields[0];
             descriptionText = textFields[1];
             costText = textFields[2];
-            healthText = textFields[3];
+
+            textSlot1 = textFields[3];
+            textSlot2 = textFields[4];
         }
     }
 
+    // Update the card Text fields
     void Update()
     {
-        // Update the card Text fields
-        nameText.text = thisCard.getName();
-        costText.text = thisCard.getCost().ToString();
-        healthText.text = thisCard.getHealth().ToString();
-        descriptionText.text = thisCard.getDescription();
+        if (thisCard is MinionCard)
+        {
+            MinionCard card = thisCard as MinionCard;
+            textSlot1.text = card.getHealth().ToString();
+            textSlot2.text = card.getAttack().ToString();
+
+            nameText.text = card.getName();
+            costText.text = card.getCost().ToString();
+            descriptionText.text = card.getDescription();
+        }
+        else if (thisCard is BuildingCard)
+        {
+            BuildingCard card = thisCard as BuildingCard;
+            textSlot1.text = card.getDefense().ToString();
+            textSlot2.text = card.getIncome().ToString();
+
+            nameText.text = card.getName();
+            costText.text = card.getCost().ToString();
+            descriptionText.text = card.getDescription();
+        }
     }
 }

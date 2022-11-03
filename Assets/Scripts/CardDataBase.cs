@@ -11,15 +11,21 @@ public class CardDataBase : MonoBehaviour
 
     void Awake()
     {
-        // List all cards in the game along with their attributes
-        cardList.Add(new Card(0, "Anthony", 1, 10, "None"));
-        cardList.Add(new Card(1, "Evan", 1, 20, "None"));
-        cardList.Add(new Card(2, "Daniel", 2, 30, "None"));
-        cardList.Add(new Card(3, "Timmy", 2, 40, "None"));
-        cardList.Add(new Card(4, "Spencer", 3, 50, "None"));
-        cardList.Add(new Card(5, "Aaron", 3, 60, "None"));
-        cardList.Add(new Card(6, "Josh", 4, 80, "None"));
-        cardList.Add(new Card(7, "Peter", 4, 90, "None"));
-        cardList.Add(new Card(8, "Luke", 5, 115, "None"));
+        // List all minions cards in the game along with their attributes
+        cardList.Add(new MinionCard(0, "Anthony", 1, "None", 10, 1));
+        cardList.Add(new MinionCard(1, "Evan", 1, "None", 20, 2));
+        cardList.Add(new MinionCard(2, "Daniel", 2, "None", 30, 3));
+        cardList.Add(new MinionCard(3, "Timmy", 2, "None", 40, 4));
+        cardList.Add(new MinionCard(4, "Spencer", 3, "None", 50, 5));
+        cardList.Add(new MinionCard(5, "Aaron", 3, "None", 60, 6));
+        cardList.Add(new MinionCard(6, "Josh", 4, "None", 70, 7));
+        cardList.Add(new MinionCard(7, "Peter", 4, "None", 80, 8));
+        cardList.Add(new MinionCard(8, "Luke", 5, "None", 90, 9));
+
+        // List all building cards in the game along with their attributes
+        cardList.Add(new BuildingCard(9, "Hut", 3, "None", 60, 6));
+        cardList.Add(new BuildingCard(10, "Temple", 4, "None", 70, 7));
+        cardList.Add(new BuildingCard(11, "Cathedral", 4, "None", 80, 8));
+        cardList.Add(new BuildingCard(12, "Collesseum", 5, "None", 90, 9));
     }
 }

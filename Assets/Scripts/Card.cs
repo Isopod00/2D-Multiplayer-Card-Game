@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 [System.Serializable]
 
 // This class defines the basic template for a Card object
@@ -10,17 +7,15 @@ public class Card
     private int cardID;
     private string cardName;
     private int cardCost;
-    private int cardHealth;
     private string cardDescription;
 
     // Constructor for a Card object
-    public Card(int ID, string Name, int Cost, int Health, string Description)
+    public Card(int ID, string Name, int Cost, string Description)
     {
-        cardID = ID;
-        cardName = Name;
-        cardCost = Cost;
-        cardHealth = Health;
-        cardDescription = Description;
+        this.cardID = ID;
+        this.cardName = Name;
+        this.cardCost = Cost;
+        this.cardDescription = Description;
     }
 
     // Public Getter Methods
@@ -35,10 +30,6 @@ public class Card
     public int getCost()
     {
         return cardCost;
-    }
-    public int getHealth()
-    {
-        return cardHealth;
     }
     public string getDescription()
     {

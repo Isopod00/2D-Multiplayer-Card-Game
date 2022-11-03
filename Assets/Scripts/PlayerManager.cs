@@ -6,7 +6,9 @@ using Mirror;
 
 public class PlayerManager : NetworkBehaviour
 {
-    public GameObject cardObject;
+    public GameObject minionCardObject;
+    public GameObject buildingCardObject;
+
     public GameObject playerArea;
     public GameObject enemyArea;
     public GameObject playerDropZone;
@@ -73,14 +75,27 @@ public class PlayerManager : NetworkBehaviour
 
         for (int i = 0; i < amountToDraw; i++)
         {
-            GameObject card = Instantiate(cardObject, new Vector2(0, 0), Quaternion.identity);
-            ThisCard script = card.GetComponent<ThisCard>(); // Access this script from the new card object
-            script.cardID = deck[0].getID(); // Set the proper card ID for the new card object
+            if (deck[0] is MinionCard)
+            {
+                GameObject card = Instantiate(minionCardObject, new Vector2(0, 0), Quaternion.identity);
+                ThisCard script = card.GetComponent<ThisCard>(); // Access this script from the new card object
+                script.cardID = deck[0].getID(); // Set the proper card ID for the new card object
 
-            NetworkServer.Spawn(card, connectionToClient); // Spawn the card for all clients on the network
-            RpcDecrementDeck(); // Decrement the deck using an Rpc so the variable is updated for each client seperately
-            deck.RemoveAt(0); // Remove the drawn card from our deck
-            RpcShowCard(card, "dealt"); // Display the card properly for each client
+                NetworkServer.Spawn(card, connectionToClient); // Spawn the card for all clients on the network
+                RpcDecrementDeck(); // Decrement the deck using an Rpc so the variable is updated for each client seperately
+                deck.RemoveAt(0); // Remove the drawn card from our deck
+                RpcShowCard(card, "dealt"); // Display the card properly for each client
+            } else if (deck[0] is BuildingCard)
+            {
+                GameObject card = Instantiate(buildingCardObject, new Vector2(0, 0), Quaternion.identity);
+                ThisCard script = card.GetComponent<ThisCard>(); // Access this script from the new card object
+                script.cardID = deck[0].getID(); // Set the proper card ID for the new card object
+
+                NetworkServer.Spawn(card, connectionToClient); // Spawn the card for all clients on the network
+                RpcDecrementDeck(); // Decrement the deck using an Rpc so the variable is updated for each client seperately
+                deck.RemoveAt(0); // Remove the drawn card from our deck
+                RpcShowCard(card, "dealt"); // Display the card properly for each client
+            }
         }
     }
 
