@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 using Mirror;
 
 // This class is meant to represent a single card
@@ -12,6 +11,8 @@ public class ThisCard : NetworkBehaviour
     public int cardID;
 
     private Card thisCard;
+
+    private bool initializedValues = false;
 
     // These are the Text fields for card GameObjects
     private Text nameText;
@@ -25,25 +26,29 @@ public class ThisCard : NetworkBehaviour
     void Start()
     {
         thisCard = CardDataBase.cardList[cardID];
-
-        if (hasAuthority)
-        {
-            Text[] textFields = new Text[5];
-            textFields = gameObject.GetComponentsInChildren<Text>();
-
-            nameText = textFields[0];
-            descriptionText = textFields[1];
-            costText = textFields[2];
-
-            textSlot1 = textFields[3];
-            textSlot2 = textFields[4];
-        }
     }
 
     // Update the card Text fields
     void Update()
     {
-        if (thisCard is MinionCard)
+        if (!initializedValues)
+        {
+            Text[] textFields = gameObject.GetComponentsInChildren<Text>();
+
+            if (textFields.Length > 0)
+            {
+                nameText = textFields[0];
+                descriptionText = textFields[1];
+                costText = textFields[2];
+
+                textSlot1 = textFields[4];
+                textSlot2 = textFields[3];
+
+                initializedValues = true;
+            }
+        }
+
+        if (initializedValues && thisCard is MinionCard)
         {
             MinionCard card = thisCard as MinionCard;
             textSlot1.text = card.getHealth().ToString();
@@ -53,7 +58,7 @@ public class ThisCard : NetworkBehaviour
             costText.text = card.getCost().ToString();
             descriptionText.text = card.getDescription();
         }
-        else if (thisCard is BuildingCard)
+        else if (initializedValues && thisCard is BuildingCard)
         {
             BuildingCard card = thisCard as BuildingCard;
             textSlot1.text = card.getDefense().ToString();
