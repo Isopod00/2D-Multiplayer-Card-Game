@@ -72,6 +72,19 @@ public class PlayerManager : NetworkBehaviour
     {
         if (isMyTurn)
         {
+            // Find all cards currently played by the client
+            foreach (Transform transform in playerDropZone.transform)
+            {
+                // Gain gold for your played buildings!
+                GameObject card = transform.gameObject;
+                ThisCard script = card.GetComponent<ThisCard>();
+                Card thisCard = script.getThis();
+                if (thisCard is BuildingCard)
+                {
+                    BuildingCard building = (BuildingCard)thisCard;
+                    gold += building.getIncome();
+                }
+            }
             isMyTurn = false;
         } else
         {
@@ -161,7 +174,6 @@ public class PlayerManager : NetworkBehaviour
             {
                 card.transform.SetParent(playerArea.transform, false);
 
-                cardsLeft = GameObject.Find("CardsLeft").GetComponent<Text>();
                 cardsLeft.text = deckSize.ToString(); // Display the current number of cards left
             } else
             {
@@ -176,17 +188,17 @@ public class PlayerManager : NetworkBehaviour
 
                 TurnsPlayed++;
                 Debug.Log("Turns Played: " + TurnsPlayed);
+                GameManager.changeTurns(); // End your turn after playing a card
 
                 ThisCard script = card.GetComponent<ThisCard>(); // Access this script from the new card object
                 gold -= script.getThis().getCost();
-                playerGold = GameObject.Find("Gold Text").GetComponent<Text>();
-                playerGold.text = "Gold: " + gold; // Display the current number of cards left
+                playerGold.text = "Gold: " + gold; // Display the current amount of gold
             } else
             {
                 card.transform.SetParent(enemyDropZone.transform, false);
                 card.GetComponent<CardFlipper>().Flip();
+                GameManager.changeTurns(); // End your turn after playing a card
             }
-            GameManager.changeTurns();
         }
     }
 }
