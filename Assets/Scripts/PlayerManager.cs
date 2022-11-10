@@ -17,7 +17,10 @@ public class PlayerManager : NetworkBehaviour
     private int deckSize = 20; // Default deck size is defined here
 
     private Text cardsLeft; // For displaying how many cards are in the player's deck
-    private int TurnsPlayed = 0;
+    private Text playerGold; // For displaying how much gold the player has
+
+    private int TurnsPlayed = 0; // Initialize the number of turns played
+    private int gold = 2; // Define the starting gold for each player
 
     public override void OnStartClient()
     {
@@ -37,6 +40,14 @@ public class PlayerManager : NetworkBehaviour
 
         cardsLeft = GameObject.Find("CardsLeft").GetComponent<Text>();
         cardsLeft.text = deckSize.ToString(); // Display the initial number of cards in the deck
+        playerGold = GameObject.Find("Gold Text").GetComponent<Text>();
+        playerGold.text = "Gold: " + gold; // Display the initial amount of gold
+    }
+
+    // Public Getter Method for the current client's gold
+    public int getGold()
+    {
+        return gold;
     }
 
     [Server]
@@ -106,14 +117,14 @@ public class PlayerManager : NetworkBehaviour
 
     // The reason for making this trivial task its own Rpc is so the variables are updated for each client
     [ClientRpc]
-    void RpcDecrementDeck()
+    private void RpcDecrementDeck()
     {
         deckSize--; // Decrease deck size by 1
     }
 
     // This RPC (Remote Procedure Call) makes sure that cards are properly displayed for each client
     [ClientRpc]
-    void RpcShowCard(GameObject card, string type)
+    private void RpcShowCard(GameObject card, string type)
     {
         if (type == "dealt")
         {
@@ -133,8 +144,14 @@ public class PlayerManager : NetworkBehaviour
             if (hasAuthority)
             {
                 card.transform.SetParent(playerDropZone.transform, false);
+
                 TurnsPlayed++;
                 Debug.Log("Turns Played: " + TurnsPlayed);
+
+                ThisCard script = card.GetComponent<ThisCard>(); // Access this script from the new card object
+                gold -= script.getThis().getCost();
+                playerGold = GameObject.Find("Gold Text").GetComponent<Text>();
+                playerGold.text = "Gold: " + gold; // Display the current number of cards left
             } else
             {
                 card.transform.SetParent(enemyDropZone.transform, false);

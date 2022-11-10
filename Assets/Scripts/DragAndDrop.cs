@@ -68,15 +68,19 @@ public class DragAndDrop : NetworkBehaviour
 
         if (isDraggable)
         {
-            if (isOverDropZone && dropZone.transform.childCount < maxBoardSize)
-            {
-                transform.SetParent(dropZone.transform, false);
-                isDraggable = false;
+            NetworkIdentity networkIdentity = NetworkClient.connection.identity;
+            playerManager = networkIdentity.GetComponent<PlayerManager>();
 
-                NetworkIdentity networkIdentity = NetworkClient.connection.identity;
-                playerManager = networkIdentity.GetComponent<PlayerManager>();
+            ThisCard script = gameObject.GetComponent<ThisCard>(); // Access this script from the new card object
+
+            // "Snap" the played card to the dropZone
+            if (isOverDropZone && dropZone.transform.childCount < maxBoardSize && playerManager.getGold() >= script.getThis().getCost())
+            {
+                isDraggable = false;
+                transform.SetParent(dropZone.transform, false);
                 playerManager.CmdPlayCard(gameObject);
             }
+            // Otherwise, return it back to the player's hand
             else
             {
                 transform.position = startPosition;

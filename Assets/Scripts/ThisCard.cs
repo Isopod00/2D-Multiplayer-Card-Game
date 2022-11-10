@@ -66,4 +66,9 @@ public class ThisCard : NetworkBehaviour
             descriptionText.text = card.getDescription();
         }
     }
+
+    public Card getThis()
+    {
+        return thisCard;
+    }
 }
