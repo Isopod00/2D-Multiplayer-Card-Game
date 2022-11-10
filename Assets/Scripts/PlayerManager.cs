@@ -22,9 +22,22 @@ public class PlayerManager : NetworkBehaviour
     private int TurnsPlayed = 0; // Initialize the number of turns played
     private int gold = 2; // Define the starting gold for each player
 
+    private bool isMyTurn; // Keep track of who's turn it currently is
+
     public override void OnStartClient()
     {
         base.OnStartClient();
+
+        // If player 1
+        if (Mirror.NetworkServer.connections.ContainsKey(0))
+        {
+            isMyTurn = true;
+        } 
+        // If player 2
+        else
+        {
+            isMyTurn = false;
+        }
 
         // Fill the deck with random cards from the database
         for (int i = 0; i < deckSize; i++)
@@ -48,6 +61,22 @@ public class PlayerManager : NetworkBehaviour
     public int getGold()
     {
         return gold;
+    }
+    // Public Getter Method for if its the current player's turn
+    public bool myTurn()
+    {
+        return isMyTurn;
+    }
+
+    public void toggleMyTurn()
+    {
+        if (isMyTurn)
+        {
+            isMyTurn = false;
+        } else
+        {
+            isMyTurn = true;
+        }
     }
 
     [Server]
@@ -157,6 +186,7 @@ public class PlayerManager : NetworkBehaviour
                 card.transform.SetParent(enemyDropZone.transform, false);
                 card.GetComponent<CardFlipper>().Flip();
             }
+            GameManager.changeTurns();
         }
     }
 }

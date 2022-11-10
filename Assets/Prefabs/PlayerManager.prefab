@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -1917974517393150947}
   m_Layer: 0
   m_Name: PlayerManager
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -104,9 +104,3 @@ MonoBehaviour:
   syncInterval: 0.1
   minionCardObject: {fileID: 1254294070387614268, guid: 6e5b66bfd24f93b4b9c4b0ab735de18e, type: 3}
   buildingCardObject: {fileID: 1254294070387614268, guid: a19fb1d20db5f184e8b24933ae29e7ec, type: 3}
-  playerArea: {fileID: 0}
-  enemyArea: {fileID: 0}
-  playerDropZone: {fileID: 0}
-  enemyDropZone: {fileID: 0}
-  deck: []
-  deckSize: 20

@@ -74,7 +74,7 @@ public class DragAndDrop : NetworkBehaviour
             ThisCard script = gameObject.GetComponent<ThisCard>(); // Access this script from the new card object
 
             // "Snap" the played card to the dropZone
-            if (isOverDropZone && dropZone.transform.childCount < maxBoardSize && playerManager.getGold() >= script.getThis().getCost())
+            if (isOverDropZone && dropZone.transform.childCount < maxBoardSize && playerManager.getGold() >= script.getThis().getCost() && playerManager.myTurn())
             {
                 isDraggable = false;
                 transform.SetParent(dropZone.transform, false);
