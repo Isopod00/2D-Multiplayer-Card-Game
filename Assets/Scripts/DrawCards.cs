@@ -1,13 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
 public class DrawCards : NetworkBehaviour
 {
     public PlayerManager playerManager;
-    public GameObject playerArea;
 
+    private GameObject playerArea;
     private int maxHandSize = 10; // Specify the maximum hand size
 
     public void OnClick()

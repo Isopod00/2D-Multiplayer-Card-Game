@@ -1,13 +1,11 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 // This class defines the database of cards in the game
 public class CardDataBase : MonoBehaviour
 {
-
     // Create a new list of Card objects
-    public static List<Card> cardList = new List<Card>();
+    private static List<Card> cardList = new List<Card>();
 
     void Awake()
     {
@@ -27,5 +25,11 @@ public class CardDataBase : MonoBehaviour
         cardList.Add(new BuildingCard(10, "Temple", 4, "None", 70, 7));
         cardList.Add(new BuildingCard(11, "Cathedral", 4, "None", 80, 8));
         cardList.Add(new BuildingCard(12, "Collesseum", 5, "None", 90, 9));
+    }
+
+    // Public Getter Method for returning the database
+    public static List<Card> getCardDatabase()
+    {
+        return cardList;
     }
 }

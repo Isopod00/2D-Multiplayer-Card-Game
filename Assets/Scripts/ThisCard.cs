@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.UI;
 using Mirror;
 
@@ -25,7 +22,7 @@ public class ThisCard : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        thisCard = CardDataBase.cardList[cardID];
+        thisCard = CardDataBase.getCardDatabase()[cardID];
     }
 
     // Update the card Text fields

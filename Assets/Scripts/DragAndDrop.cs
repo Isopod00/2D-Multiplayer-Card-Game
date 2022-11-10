@@ -1,16 +1,14 @@
 using Mirror;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DragAndDrop : NetworkBehaviour
 {
-    public GameObject Canvas;
     public PlayerManager playerManager;
 
     // Initalize variables for DropZone functionality
     private GameObject startParent;
     private Vector2 startPosition;
+    private GameObject Canvas;
     private GameObject dropZone;
     private bool isOverDropZone;
 

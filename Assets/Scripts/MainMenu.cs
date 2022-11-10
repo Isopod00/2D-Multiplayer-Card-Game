@@ -1,12 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 // This class provides functionality for the main menu
 public class MainMenu : MonoBehaviour
 {
-
     // This method is called when the "exit" button is pressed
     public void ExitButton()
     {

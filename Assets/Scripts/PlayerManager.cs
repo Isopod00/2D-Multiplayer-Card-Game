@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,13 +8,13 @@ public class PlayerManager : NetworkBehaviour
     public GameObject minionCardObject;
     public GameObject buildingCardObject;
 
-    public GameObject playerArea;
-    public GameObject enemyArea;
-    public GameObject playerDropZone;
-    public GameObject enemyDropZone;
+    private GameObject playerArea;
+    private GameObject enemyArea;
+    private GameObject playerDropZone;
+    private GameObject enemyDropZone;
 
-    public List<Card> deck = new List<Card>(); // Create a new list of Card objects
-    public int deckSize = 20; // Default deck size is defined here
+    private List<Card> deck = new List<Card>(); // Create a new list of Card objects
+    private int deckSize = 20; // Default deck size is defined here
 
     private Text cardsLeft; // For displaying how many cards are in the player's deck
     private int TurnsPlayed = 0;
@@ -27,7 +26,7 @@ public class PlayerManager : NetworkBehaviour
         // Fill the deck with random cards from the database
         for (int i = 0; i < deckSize; i++)
         {
-            deck.Add(CardDataBase.cardList[Random.Range(0, CardDataBase.cardList.Count)]);
+            deck.Add(CardDataBase.getCardDatabase()[Random.Range(0, CardDataBase.getCardDatabase().Count)]);
         }
 
         // Find our GameObjects within the scene
