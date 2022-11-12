@@ -18,6 +18,7 @@ public class PlayerManager : NetworkBehaviour
 
     private Text cardsLeft; // For displaying how many cards are in the player's deck
     private Text playerGold; // For displaying how much gold the player has
+    private Text turnText;
 
     private int TurnsPlayed = 0; // Initialize the number of turns played
     private int gold = 2; // Define the starting gold for each player
@@ -55,6 +56,17 @@ public class PlayerManager : NetworkBehaviour
         cardsLeft.text = deckSize.ToString(); // Display the initial number of cards in the deck
         playerGold = GameObject.Find("Gold Text").GetComponent<Text>();
         playerGold.text = "Gold: " + gold; // Display the initial amount of gold
+        turnText = GameObject.Find("Turn Text").GetComponent<Text>();
+
+        if(isMyTurn)
+        {
+            turnText.text = "Your Turn!";
+            turnText.color = new Color(0, 255, 0);
+        } else
+        {
+            turnText.text = "Opponent's Turn";
+            turnText.color = new Color(255, 0, 0);
+        }
     }
 
     // Public Getter Method for the current client's gold
@@ -86,9 +98,13 @@ public class PlayerManager : NetworkBehaviour
                 }
             }
             isMyTurn = false;
+            turnText.text = "Opponent's Turn";
+            turnText.color = new Color(255, 0, 0);
         } else
         {
             isMyTurn = true;
+            turnText.text = "Your Turn!";
+            turnText.color = new Color(0, 255, 0);
         }
     }
 
