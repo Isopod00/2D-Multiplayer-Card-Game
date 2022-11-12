@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class DragAndDrop : NetworkBehaviour
 {
-    public PlayerManager playerManager;
+    private PlayerManager playerManager;
 
     // Initalize variables for DropZone functionality
     private GameObject startParent;
