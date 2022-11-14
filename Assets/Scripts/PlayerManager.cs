@@ -21,7 +21,7 @@ public class PlayerManager : NetworkBehaviour
     private Text turnText;
 
     private int TurnsPlayed = 0; // Initialize the number of turns played
-    private int gold = 2; // Define the starting gold for each player
+    private int gold = 0; // Define the starting gold for each player
 
     private bool isMyTurn; // Keep track of who's turn it currently is
 
@@ -45,6 +45,8 @@ public class PlayerManager : NetworkBehaviour
         {
             deck.Add(CardDataBase.getCardDatabase()[Random.Range(0, CardDataBase.getCardDatabase().Count)]);
         }
+
+        gold = 2;
 
         // Find our GameObjects within the scene
         playerArea = GameObject.Find("PlayerArea");
@@ -84,19 +86,11 @@ public class PlayerManager : NetworkBehaviour
     {
         if (isMyTurn)
         {
-            // Find all cards currently played by the client
-            foreach (Transform transform in playerDropZone.transform)
-            {
-                // Gain gold for your played buildings!
-                GameObject card = transform.gameObject;
-                ThisCard script = card.GetComponent<ThisCard>();
-                Card thisCard = script.getThis();
-                if (thisCard is BuildingCard)
-                {
-                    BuildingCard building = (BuildingCard)thisCard;
-                    gold += building.getIncome();
-                }
-            }
+            CmdCollectGold();
+
+            TurnsPlayed++;
+            Debug.Log("Turns Played: " + TurnsPlayed);
+
             isMyTurn = false;
             turnText.text = "Opponent's Turn";
             turnText.color = new Color(255, 0, 0);
@@ -105,6 +99,33 @@ public class PlayerManager : NetworkBehaviour
             isMyTurn = true;
             turnText.text = "Your Turn!";
             turnText.color = new Color(0, 255, 0);
+        }
+    }
+
+    [Command]
+    public void CmdCollectGold()
+    {
+        RpcCollectGold();
+    }
+    [ClientRpc]
+    private void RpcCollectGold()
+    {
+        if(hasAuthority)
+        {
+            // Find all cards currently played by the client
+            foreach (Transform transform in playerDropZone.transform)
+            {
+                // Gain gold for your played buildings!
+                GameObject cardObject = transform.gameObject;
+                ThisCard script = cardObject.GetComponent<ThisCard>();
+                Card thisCard = script.getThis();
+                if (thisCard is BuildingCard)
+                {
+                    BuildingCard building = (BuildingCard)thisCard;
+                    gold += building.getIncome();
+                }
+            }
+            playerGold.text = "Gold: " + gold; // Display the current amount of gold
         }
     }
 
@@ -180,6 +201,17 @@ public class PlayerManager : NetworkBehaviour
         deckSize--; // Decrease deck size by 1
     }
 
+    [Command]
+    public void CmdEndTurn()
+    {
+        RpcEndTurn();
+    }
+    [ClientRpc]
+    private void RpcEndTurn()
+    {
+        GameManager.changeTurns(); // End your turn
+    }
+
     // This RPC (Remote Procedure Call) makes sure that cards are properly displayed for each client
     [ClientRpc]
     private void RpcShowCard(GameObject card, string type)
@@ -202,10 +234,6 @@ public class PlayerManager : NetworkBehaviour
             {
                 card.transform.SetParent(playerDropZone.transform, false);
 
-                TurnsPlayed++;
-                Debug.Log("Turns Played: " + TurnsPlayed);
-                GameManager.changeTurns(); // End your turn after playing a card
-
                 ThisCard script = card.GetComponent<ThisCard>(); // Access this script from the new card object
                 gold -= script.getThis().getCost();
                 playerGold.text = "Gold: " + gold; // Display the current amount of gold
@@ -213,7 +241,6 @@ public class PlayerManager : NetworkBehaviour
             {
                 card.transform.SetParent(enemyDropZone.transform, false);
                 card.GetComponent<CardFlipper>().Flip();
-                GameManager.changeTurns(); // End your turn after playing a card
             }
         }
     }
