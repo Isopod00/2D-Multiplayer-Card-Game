@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -24,6 +22,15 @@ public class GameManager : MonoBehaviour
         {
             PlayerManager script = player.GetComponent<PlayerManager>();
             script.toggleMyTurn();
+        }
+    }
+
+    public static void drawInitialCards()
+    {
+        foreach (GameObject player in clients)
+        {
+            PlayerManager script = player.GetComponent<PlayerManager>();
+            script.CmdDrawCards(4);
         }
     }
 }

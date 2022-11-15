@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Mirror;
+using System;
 
 public class PlayerManager : NetworkBehaviour
 {
@@ -15,6 +16,9 @@ public class PlayerManager : NetworkBehaviour
 
     private List<Card> deck = new List<Card>(); // Create a new list of Card objects
     private int deckSize = 20; // Default deck size is defined here
+
+    private int maxHandSize = 10;
+    private int currentHandSize = 0;
 
     private Text cardsLeft; // For displaying how many cards are in the player's deck
     private Text playerGold; // For displaying how much gold the player has
@@ -32,18 +36,18 @@ public class PlayerManager : NetworkBehaviour
         // If player 1
         if (Mirror.NetworkServer.connections.ContainsKey(0))
         {
-            isMyTurn = true;
+            isMyTurn = false;
         } 
         // If player 2
         else
         {
-            isMyTurn = false;
+            isMyTurn = true;
         }
 
         // Fill the deck with random cards from the database
         for (int i = 0; i < deckSize; i++)
         {
-            deck.Add(CardDataBase.getCardDatabase()[Random.Range(0, CardDataBase.getCardDatabase().Count)]);
+            deck.Add(CardDataBase.getCardDatabase()[UnityEngine.Random.Range(0, CardDataBase.getCardDatabase().Count)]);
         }
 
         gold = 2;
@@ -69,6 +73,12 @@ public class PlayerManager : NetworkBehaviour
             turnText.text = "Opponent's Turn";
             turnText.color = new Color(255, 0, 0);
         }
+
+        // Wait until both players conect to draw the initial cards
+        if(NetworkServer.connections.Count == 2) 
+        {
+            GameManager.drawInitialCards();
+        }
     }
 
     // Public Getter Method for the current client's gold
@@ -86,8 +96,6 @@ public class PlayerManager : NetworkBehaviour
     {
         if (isMyTurn)
         {
-            CmdCollectGold();
-
             TurnsPlayed++;
             Debug.Log("Turns Played: " + TurnsPlayed);
 
@@ -99,6 +107,13 @@ public class PlayerManager : NetworkBehaviour
             isMyTurn = true;
             turnText.text = "Your Turn!";
             turnText.color = new Color(0, 255, 0);
+
+            CmdCollectGold();
+
+            if(hasAuthority)
+            {
+                CmdDrawCards(2); // Draw two cards
+            }
         }
     }
 
@@ -143,7 +158,7 @@ public class PlayerManager : NetworkBehaviour
 
         for (int i = 0; i < deckSize; i++)
         {
-            int swapWith = Random.Range(0, deckSize);
+            int swapWith = UnityEngine.Random.Range(0, deckSize);
 
             // Swap the cards to shuffle
             temp = deck[swapWith];
@@ -152,7 +167,7 @@ public class PlayerManager : NetworkBehaviour
         }
     }
 
-    [Command]
+    [Command(requiresAuthority = false)]
     // Network Command for drawing cards
     public void CmdDrawCards(int amountToDraw)
     {
@@ -162,10 +177,16 @@ public class PlayerManager : NetworkBehaviour
             amountToDraw = deckSize;
         }
 
+        if(currentHandSize + amountToDraw > maxHandSize)
+        {
+            amountToDraw = Math.Max(0, maxHandSize - currentHandSize);
+        }
+
         for (int i = 0; i < amountToDraw; i++)
         {
             if (deck[0] is MinionCard)
             {
+                currentHandSize++;
                 GameObject card = Instantiate(minionCardObject, new Vector2(0, 0), Quaternion.identity);
                 ThisCard script = card.GetComponent<ThisCard>(); // Access this script from the new card object
                 script.cardID = deck[0].getID(); // Set the proper card ID for the new card object
@@ -176,6 +197,7 @@ public class PlayerManager : NetworkBehaviour
                 RpcShowCard(card, "dealt"); // Display the card properly for each client
             } else if (deck[0] is BuildingCard)
             {
+                currentHandSize++;
                 GameObject card = Instantiate(buildingCardObject, new Vector2(0, 0), Quaternion.identity);
                 ThisCard script = card.GetComponent<ThisCard>(); // Access this script from the new card object
                 script.cardID = deck[0].getID(); // Set the proper card ID for the new card object
@@ -191,6 +213,7 @@ public class PlayerManager : NetworkBehaviour
     [Command]
     public void CmdPlayCard(GameObject card)
     {
+        currentHandSize--;
         RpcShowCard(card, "played");
     }
 
