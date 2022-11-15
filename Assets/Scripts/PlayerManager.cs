@@ -108,10 +108,9 @@ public class PlayerManager : NetworkBehaviour
             turnText.text = "Your Turn!";
             turnText.color = new Color(0, 255, 0);
 
-            CmdCollectGold();
-
             if(hasAuthority)
             {
+                CmdCollectGold(); // Tally up the gold from your current buildings
                 CmdDrawCards(2); // Draw two cards
             }
         }
